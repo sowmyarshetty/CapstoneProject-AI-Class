@@ -1,0 +1,39 @@
+from fastapi import FastAPI, Request
+from pydantic import BaseModel
+from transformers import AutoTokenizer, AutoModelForQuestionAnswering
+from safetensors.torch import load_file
+import torch
+import uvicorn
+
+app = FastAPI()
+
+# Load the tokenizer
+tokenizer = AutoTokenizer.from_pretrained("./my_model")
+
+# Load model from safetensors (manually if needed)
+model = AutoModelForQuestionAnswering.from_config("./my_model/config.json")
+model.load_state_dict(load_file("./my_model/model.safetensors"))
+model.eval()
+
+class Query(BaseModel):
+    query: str
+
+@app.post("/api/chatbot")
+async def chatbot(query: Query):
+    question = query.query
+    context = "This is placeholder context from product descriptions or reviews. Replace this with vector store retrieval output."
+
+    inputs = tokenizer(question, context, return_tensors="pt")
+    with torch.no_grad():
+        outputs = model(**inputs)
+
+    start_idx = torch.argmax(outputs.start_logits)
+    end_idx = torch.argmax(outputs.end_logits) + 1
+    answer = tokenizer.convert_tokens_to_string(
+        tokenizer.convert_ids_to_tokens(inputs.input_ids[0][start_idx:end_idx])
+    )
+
+    return {"reply": answer}
+
+if __name__ == "__main__":
+    uvicorn.run("chatbot_backend:app", host="0.0.0.0", port=8000, reload=True)
