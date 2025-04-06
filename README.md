@@ -29,7 +29,7 @@ This is a chatbot assistant using Streamlit or Gradio as a recommendation engine
 #### The Dataset Details:
 * AmazonHomeKitchenReviews.CSV
 * Data source is https://amazon-reviews-2023.github.io/#grouped-by-category
-* 754,081 Total Records
+* 754,079 Total Records with 18 columns
 * Categories: 
   * Kids Home Store
   * Valentines Day in Home
