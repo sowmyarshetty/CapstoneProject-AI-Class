@@ -12,30 +12,45 @@
 
 ### Contributors
 
-![contributors](images/team-picture.png)
-
-Contributors to the project (pictured from left to right):
-* **Saurabh Pratap Singh**
-* **Valarie Miller**
-* **Eshumael Manhanzva**
-* **Cameron Keplinger**
-* **Luther Johnson**
-* **Sowmya Shetty**
+Contributors to the project:
 * **Deborah Aina (Advisor)**
+* **Cameron Keplinger**
+* **Eshumael Manhanzva**
+* **Luther Johnson**
+* **Saurabh Pratap Singh**
+* **Sowmya Shetty**
+* **Valarie Miller**
 
 ### Executive Summary 
 
-Create a chatbot assistant using Streamlit or Gradio as a recommendation engine using Content Based Filtering to help purchase home and kitchen products 
-on Amazon based on Amazon reviews.  Solves the problem of making recommendations without sorting through hundreds of products or going through numerous 
-reviews before making a purchase decision, saving time and receiving product recommendations that are more fitting. 
+This is a chatbot assistant using Streamlit or Gradio as a recommendation engine using Content Based Filtering to help purchase home and kitchen products on Amazon based on Amazon reviews.  Solves the problem of making recommendations without sorting through hundreds of products or going through numerous reviews before making a purchase decision, saving time and receiving product recommendations that are more fitting. 
 
 ### Project Objectives
+#### The Dataset Details:
+* AmazonHomeKitchenReviews.CSV
+* Data source is https://amazon-reviews-2023.github.io/#grouped-by-category
+* 754,079 Total Records with 18 columns
+* Categories: 
+  * Kids Home Store
+  * Valentines Day in Home
+  * Bath
+  * Bedding
+  * Cosmetic Organizers
+  * Dorm Room HQ
+  * Event & Party Supplies
+  * Furniture
+  * Heating, Cooling & Air Quality
+  * Home and Furniture Made in Italy
+  * Home Decor Products
+  * Irons & Steamers
+  * Kitchen & Dining
+  * Seasonal Decor
+  * Storage & Organization
+  * Vacuums & Floor Care
+  * Wall Art
+  * Small Appliance Parts
 
 #### Data Collection & Cleaning
-
-This dataset offers.
-
-#### Data source: https://amazon-reviews-2023.github.io/#grouped-by-category
 
 * Sentiment Analysis - BERT Based from Hugging Face to fine tune model with above dataset
 * Q/A (Hugging Face)
@@ -46,15 +61,13 @@ This dataset offers.
 ### Approach and Methodology
 
 * Our approach utilizes the following: 
-* Identify Problem/challenge
-* Select data
-* Pre-process data
-* Condense data set to Home & Kitchen (Apply data models)
-* Train neural network and show progression
-* Fine tune
-* Provide persona/”model” for chatbot to follow
-* Build ChatGPT chatbot experience using same dataset
-* Use Streamlit/Gradio to showcase experience
+  * Load the CSV data file
+  * Load the api key for HuggingfaceRead
+  * Load all the records in the dataframe as documents using the load_docs function
+  * Create the path for the vector database. 
+  * Call the store_incrementally_in_fiass function
+  * Create the function to load the vector database and chat (using HuggingFaceEndpoint mistralai/Mistral-7B-Instruct-v0.1 as the LLM) 
+  * Create a question answer retreival chain from langchain.chains framework
 
 #### Exploratory Data Analysis
 
