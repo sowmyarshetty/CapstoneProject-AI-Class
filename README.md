@@ -61,13 +61,13 @@ This is a chatbot assistant using Streamlit or Gradio as a recommendation engine
 ### Approach and Methodology
 
 * Our approach utilizes the following: 
- * Load the CSV data file
- * Load the api key for HuggingfaceRead
- * Load all the records in the dataframe as documents using the load_docs function
- * Create the path for the vector database. 
- * Call the store_incrementally_in_fiass function
- * Create the function to load the vector database and chat (using HuggingFaceEndpoint mistralai/Mistral-7B-Instruct-v0.1 as the LLM) 
- * Create a question answer retreival chain from langchain.chains framework
+  * Load the CSV data file
+  * Load the api key for HuggingfaceRead
+  * Load all the records in the dataframe as documents using the load_docs function
+  * Create the path for the vector database. 
+  * Call the store_incrementally_in_fiass function
+  * Create the function to load the vector database and chat (using HuggingFaceEndpoint mistralai/Mistral-7B-Instruct-v0.1 as the LLM) 
+  * Create a question answer retreival chain from langchain.chains framework
 
 #### Exploratory Data Analysis
 
