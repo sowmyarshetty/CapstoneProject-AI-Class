@@ -4,6 +4,12 @@ from transformers import AutoTokenizer, AutoModelForQuestionAnswering
 from safetensors.torch import load_file
 import torch
 import uvicorn
+import os
+import pandas as pd
+from langchain.embeddings import HuggingFaceEmbeddings
+from langchain.vectorstores import FAISS
+from langchain.text_splitter import CharacterTextSplitter
+from langchain.docstore.document import Document
 
 app = FastAPI()
 
@@ -15,13 +21,33 @@ model = AutoModelForQuestionAnswering.from_config("./my_model/config.json")
 model.load_state_dict(load_file("./my_model/model.safetensors"))
 model.eval()
 
+# Set up Hugging Face embeddings
+embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+
+# Build FAISS index from CSV file if it doesn't exist
+if not os.path.exists("faiss_store"): 
+    df = pd.read_csv("AmazonHomeKitchenReviews.csv")
+    df = df.dropna(subset=['review_body'])
+    docs = [Document(page_content=row['review_body'], metadata={"title": row.get('product_title', '')}) for _, row in df.iterrows()]
+    
+    splitter = CharacterTextSplitter(chunk_size=500, chunk_overlap=100)
+    split_docs = splitter.split_documents(docs)
+
+    faiss_index = FAISS.from_documents(split_docs, embedding_model)
+    faiss_index.save_local("faiss_store")
+else:
+    faiss_index = FAISS.load_local("faiss_store", embedding_model)
+
 class Query(BaseModel):
     query: str
 
 @app.post("/api/chatbot")
 async def chatbot(query: Query):
     question = query.query
-    context = "This is placeholder context from product descriptions or reviews. Replace this with vector store retrieval output."
+
+    # Retrieve relevant context from FAISS vector store
+    retrieved_docs = faiss_index.similarity_search(question, k=1)
+    context = retrieved_docs[0].page_content if retrieved_docs else ""
 
     inputs = tokenizer(question, context, return_tensors="pt")
     with torch.no_grad():
