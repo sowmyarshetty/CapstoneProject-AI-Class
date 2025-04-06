@@ -12,30 +12,46 @@
 
 ### Contributors
 
-![contributors](images/team-picture.png)
-
-Contributors to the project (pictured from left to right):
-* **Saurabh Pratap Singh**
-* **Valarie Miller**
-* **Eshumael Manhanzva**
-* **Cameron Keplinger**
-* **Luther Johnson**
-* **Sowmya Shetty**
+Contributors to the project:
 * **Deborah Aina (Advisor)**
+* **Cameron Keplinger**
+* **Eshumael Manhanzva**
+* **Luther Johnson**
+* **Saurabh Pratap Singh**
+* **Sowmya Shetty**
+* **Valarie Miller**
 
 ### Executive Summary 
 
-Create a chatbot assistant using Streamlit or Gradio as a recommendation engine using Content Based Filtering to help purchase home and kitchen products 
-on Amazon based on Amazon reviews.  Solves the problem of making recommendations without sorting through hundreds of products or going through numerous 
-reviews before making a purchase decision, saving time and receiving product recommendations that are more fitting. 
+This is a chatbot assistant using Streamlit or Gradio as a recommendation engine using Content Based Filtering to help purchase home and kitchen products on Amazon based on Amazon reviews.  Solves the problem of making recommendations without sorting through hundreds of products or going through numerous reviews before making a purchase decision, saving time and receiving product recommendations that are more fitting. 
 
 ### Project Objectives
 
 #### Data Collection & Cleaning
 
-This dataset offers.
-
-#### Data source: https://amazon-reviews-2023.github.io/#grouped-by-category
+The dataset details:
+* AmazonHomeKitchenReviews.CSV
+* Data source is https://amazon-reviews-2023.github.io/#grouped-by-category
+* 754,081 Total Records
+* Categories: 
+  * Kids Home Store
+  * Valentines Day in Home
+  * Bath
+  * Bedding
+  * Cosmetic Organizers
+  * Dorm Room HQ
+  * Event & Party Supplies
+  * Furniture
+  * Heating, Cooling & Air Quality
+  * Home and Furniture Made in Italy
+  * Home Decor Products
+  * Irons & Steamers
+  * Kitchen & Dining
+  * Seasonal Decor
+  * Storage & Organization
+  * Vacuums & Floor Care
+  * Wall Art
+  * Small Appliance Parts
 
 * Sentiment Analysis - BERT Based from Hugging Face to fine tune model with above dataset
 * Q/A (Hugging Face)
