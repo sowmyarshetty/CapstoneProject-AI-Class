@@ -1,4 +1,4 @@
- --- Streamlit UI Elements ---
+# --- Streamlit UI Elements ---
 
 # Inject Custom CSS for Amazon Look
 st.markdown(
@@ -78,89 +78,86 @@ st.markdown(
 )
 
 # Custom Header Display
-st.markdown('<div class="header-container"><h1>Amazon Review Assistant <span>QA</span></h1></div>', unsafe_allow_html=True)
+st.markdown('<div class="header-container"><h1>Review Assistant <span>AI</span></h1></div>', unsafe_allow_html=True)
+st.markdown("Ask questions about home and kitchen products. I'll find relevant reviews, extract key info using a **local QA model**, and then use **Mistral** to give you a conversational answer.")
 
-# Add sidebar for configuration
-with st.sidebar:
-    st.header("Configuration")
-    
-    # GPT-4o Integration
-    st.subheader("GPT-4o Integration")
-    # Store configuration in session state instead of global variables
-    if 'use_gpt4o' not in st.session_state:
-        st.session_state.use_gpt4o = USE_GPT4O
-    if 'openai_api_key' not in st.session_state:
-        st.session_state.openai_api_key = OPENAI_API_KEY
-        
-    # UI controls
-    st.session_state.use_gpt4o = st.toggle("Use GPT-4o for enhanced responses", value=st.session_state.use_gpt4o)
-    
-    # API Key input with proper security
-    st.session_state.openai_api_key = st.text_input("OpenAI API Key (required for GPT-4o)", 
-                           type="password", 
-                           value=st.session_state.openai_api_key,
-                           help="Your API key will not be stored permanently")
-    
-    if st.session_state.use_gpt4o and not st.session_state.openai_api_key:
-        st.warning("⚠️ Please enter your OpenAI API key to use GPT-4o")
-    
-    if st.session_state.use_gpt4o and st.session_state.openai_api_key:
-        st.success("✅ GPT-4o integration is enabled")
-    
-    st.divider()
-    
-    st.markdown("""
-    ### About
-    This app uses a trained QA model to extract answers from Amazon product reviews.
-    
-    When GPT-4o integration is enabled, the app will use OpenAI's GPT-4o model to enhance 
-    the extracted answers, making them more natural and comprehensive.
-    
-    Your API key is used only for API calls and is not stored permanently.
-    """)
-
-st.markdown("""
-Ask questions about home and kitchen products. I'll find relevant reviews and use a **trained QA model** to extract answers directly from the text.
-*Example: "How noisy is the XYZ blender according to reviews?"*
-""")
-
-# --- Chat Logic ---
+# --- Initialize Session State for Chat ---
 if "messages" not in st.session_state:
     st.session_state.messages = [{"role": "assistant", "content": "Hi! How can I help you find answers within product reviews?"}]
 
-# Display messages
+# --- Display Chat Messages ---
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-# Handle user input
+# --- Handle User Input and Generate Response ---
 if user_query := st.chat_input("Ask a question based on reviews..."):
-    # Add user message
+    # Add user message to history and display
     st.session_state.messages.append({"role": "user", "content": user_query})
     with st.chat_message("user"):
         st.markdown(user_query)
 
-    # Process and get bot response
+    # Generate and display assistant response
     with st.chat_message("assistant"):
-        response_placeholder = st.empty() # Use a placeholder for streaming-like effect
-        with st.spinner("Searching reviews and extracting answer..."):
+        response_placeholder = st.empty()
+        with st.spinner("Searching reviews, extracting info, and generating answer..."):
+            final_answer = "Sorry, I encountered an issue processing your request." # Default error
             try:
-                # 1. Retrieve relevant documents
-                retrieved_docs = retriever.invoke(user_query)
-                context = "\n\n".join([doc.page_content for doc in retrieved_docs]) # Combine content
-
-                if not context:
-                    response = "I couldn't find relevant reviews for that question."
-                    logger.warning(f"No context found for query: {user_query}")
+                # 1. Retrieve Context
+                if not retriever:
+                    st.error("Review retriever is not available. Cannot process query.")
+                    # Use st.stop() cautiously, maybe just set final_answer and log
+                    final_answer = "Error: Review retriever not initialized."
+                    logger.error("Retriever not available.")
                 else:
-                    # 2. Get answer from context using the local QA model
-                    response = get_answer_from_context(user_query, context, tokenizer, qa_model)
+                    retrieved_docs = retriever.invoke(user_query)
+                    context = "\n\n".join([doc.page_content for doc in retrieved_docs])
+                    logger.info(f"Retrieved {len(retrieved_docs)} documents for query: {user_query}")
 
-                response_placeholder.markdown(response) # Display the final response
-                st.session_state.messages.append({"role": "assistant", "content": response})
+                    # 2. Extract Facts (Local QA Model)
+                    extracted_info = "Could not extract specific information from reviews." # Default
+                    if context:
+                        if local_tokenizer and local_qa_model:
+                            extracted_info = get_answer_from_context(
+                                user_query,
+                                context,
+                                local_tokenizer,
+                                local_qa_model
+                            )
+                        else:
+                            extracted_info = "Local QA model is not available for extraction."
+                            logger.warning("Local QA model/tokenizer not loaded, skipping extraction.")
+                    else:
+                        extracted_info = "No relevant reviews found to extract information from."
+                        logger.warning(f"No context retrieved for query: {user_query}")
+
+                    # 3. Synthesize Answer (Mistral LLM)
+                    # Only proceed if retriever worked
+                    synthesis_prompt = f"""Based on the following information extracted from product reviews:
+"{extracted_info}"
+
+Please answer the user's original question in a helpful and conversational way: "{user_query}"
+
+If the extracted information indicates it couldn't find an answer, no reviews were found, or the local model wasn't available, please state that clearly. Avoid making up information not present in the extracted text.
+Answer:
+"""
+                    logger.info(f"Sending synthesis prompt to Mistral:\n{synthesis_prompt}")
+
+                    mistral_response = mistral_llm.invoke(synthesis_prompt)
+                    final_answer = mistral_response.strip() if isinstance(mistral_response, str) else str(mistral_response)
 
             except Exception as e:
                 logger.exception(f"Error processing user query '{user_query}': {e}")
-                error_message = f"Sorry, an error occurred: {e}"
-                response_placeholder.error(error_message)
-                st.session_state.messages.append({"role": "assistant", "content": error_message})
+                final_answer = f"Sorry, an error occurred: {e}" # Show error in chat
+
+            # Display final answer
+            response_placeholder.markdown(final_answer)
+            st.session_state.messages.append({"role": "assistant", "content": final_answer})
+
+# --- Sidebar ---
+with st.sidebar:
+    st.header("Chat Controls")
+    if st.button("Clear Chat History"):
+        st.session_state.messages = [{"role": "assistant", "content": "Chat history cleared. Ask me a new question!"}]
+        st.rerun()
+
