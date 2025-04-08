@@ -1,5 +1,5 @@
 import streamlit as st
-from llmmodel import load_faiss_and_chat # For Mistral tab
+from llmmodel import process_query # For Mistral tab
 from distillbert import get_distilbert_answer # For DistilBERT tab
 import torch 
 
@@ -88,20 +88,20 @@ st.markdown("Ask questions about home and kitchen products based on reviews.")
 
 # --- Initialize Session State for Chat Histories ---
 if "messages_tuned" not in st.session_state:
-    st.session_state.messages_tuned = [{"role": "assistant", "content": "Hi! Ask me anything about the product reviews (Fine-Tuned Model)."}]
+    st.session_state.messages_tuned = [{"role": "assistant", "content": "Hi! Ask me anything about the product reviews Distillbert -Fine-Tuned Model"}]
 if "messages_base" not in st.session_state:
-    st.session_state.messages_base = [{"role": "assistant", "content": "Hi! Ask me anything about the product reviews (Base Model - DistilBERT)."}]
+    st.session_state.messages_base = [{"role": "assistant", "content": "Hi! Ask me anything about the product- LLM (Mistral))."}]
 
 # --- Create Tabs ---
 # Renaming tabs as requested
-tab1, tab2 = st.tabs(["Base Model (DistilBERT)", "LLM (Mistral)"])
+tab1, tab2 = st.tabs(["Fine-Tuned Model (DistilBERT)", "LLM (Mistral)"])
 
 # --- Tab 1: Base Model (DistilBERT) ---
 with tab1:
     st.header("Chat with finetuned Model (DistilBERT)")
 
     # Display chat messages (using messages_base for this tab now)
-    for message in st.session_state.messages_base:
+    for message in st.session_state.messages_tuned:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
 
@@ -133,12 +133,12 @@ with tab2:
     st.header("Chat with LLM (Mistral)")
 
     # Display chat messages (using messages_tuned for this tab now)
-    for message in st.session_state.messages_tuned:
+    for message in st.session_state.messages_base:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
 
     # Handle user input
-    if user_query_tuned := st.chat_input("Ask the fine-tuned Mistral model..."):
+    if user_query_tuned := st.chat_input("Ask the Mistral model..."):
         # Add user message to history and display
         st.session_state.messages_tuned.append({"role": "user", "content": user_query_tuned})
         with st.chat_message("user"):
@@ -150,7 +150,7 @@ with tab2:
             with st.spinner("Thinking..."):
                 try:
                     # Call the function from llmmodel.py (Mistral)
-                    final_answer = load_faiss_and_chat(user_query_tuned)
+                    final_answer = process_query(user_query_tuned)
                 except Exception as e:
                     st.error(f"An error occurred: {e}")
                     final_answer = "Sorry, I encountered an issue processing your request."

@@ -3,6 +3,7 @@ import json
 from pprint import pprint
 import os
 import json
+import streamlit as st 
 # from langchain_openai import OpenAI
 from langchain.chains import RetrievalQA
 from langchain.chains import ConversationalRetrievalChain
@@ -16,11 +17,13 @@ from langchain.docstore.document import Document
 from langchain.vectorstores import FAISS
 from langchain.prompts import PromptTemplate
 
+
 # --- Paths for local execution ---
 faiss_index_path = "Resources/vector" # Original: "Resources/vector"
 env_file_path = "Resources/keys.env" # Original: "Resources/keys.env"
 
-def load_faiss_and_chat(query,faiss_index_path=faiss_index_path):
+@st.cache_resource
+def load_faiss_and_chat(faiss_index_path=faiss_index_path):
     embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
     load_dotenv(find_dotenv(env_file_path)) # Load .env from execution directory
@@ -41,14 +44,27 @@ def load_faiss_and_chat(query,faiss_index_path=faiss_index_path):
     # Custom prompt template
     prompt_template = PromptTemplate(
         input_variables=["context", "question","chat_history"],
-        template="""You are a friendly  store assistant helping a customer based on the reviews and product info below. 
+        template="""You are a friendly store assistant helping a customer based on the reviews and product info below. 
         If the answer is not in the context, say "I don't know." 
-        When making recommendations, provide only the top 3 distinct products in the following format: 
-        - * Product Name 1
-        - * Product Name 2
-        - * Product Name 3
-        If there are duplicates, choose only one entry for each product.       
-        Do not include any additional information like price, color, rating, or category. Only list the product names.
+        Provide the requested information in a bulleted list. 
+        - If asked for reviews, only return the top 3 reviews.
+          - Review 1
+          - Review 2 
+          - Review 3
+        - If asked for product names,only return the top 3 product names.
+          - * Product Name 1 
+          - * Product Name 2 
+          - * Product Name 3 
+        - If asked for price, return the price in the following format: 
+          - * Product Name , Price: $xx.xx
+        - If asked for rating, return the rating in the following format:
+          - * Product Name Rating: x.x stars
+        - If asked for color, return the color in the following format:
+          - * Product Name Color: [color name]
+        - If asked for category, return the category in the following format:
+          - * Product Name Category: [category name]
+        If there are duplicates, choose only one entry for each product. 
+        Please include a more converstational tone.
         Chat History:
         {chat_history}
 
@@ -56,12 +72,18 @@ def load_faiss_and_chat(query,faiss_index_path=faiss_index_path):
         Context:{context}
         Answer:""")
 
-    memory = ConversationBufferMemory(memory_key="chat_history",return_messages=True)
+    memory = ConversationBufferMemory(memory_key="chat_history",return_messages=True,max_token_limit=1000)
 
     qa_chain = ConversationalRetrievalChain.from_llm(llm=llm,
                                                      retriever=vector_store.as_retriever(),
                                                      memory=memory,
                                                      combine_docs_chain_kwargs={"prompt" : prompt_template})
     
+    return qa_chain 
+
+qa_chain = load_faiss_and_chat()
+
+@st.cache_data
+def process_query(query):
     response = qa_chain.invoke(query)
     return (response['answer'])
