@@ -22,7 +22,7 @@ def get_distilbert_answer(query: str,context: str) -> str:
     """
     result = qa_pipeline(question=query, context=context)
 
-    if result and result["score"] > 0.1:
+    if result and result["score"] > 0.01:
         return result["answer"]
     else:
         return "Sorry, I couldn't find a confident answer based on the context."
