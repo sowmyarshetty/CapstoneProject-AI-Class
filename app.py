@@ -1,6 +1,7 @@
 import streamlit as st
 from llmmodel import load_faiss_and_chat # For Mistral tab
 from distillbert import get_distilbert_answer # For DistilBERT tab
+import torch 
 
 # --- Streamlit UI Elements ---
 
@@ -93,11 +94,11 @@ if "messages_base" not in st.session_state:
 
 # --- Create Tabs ---
 # Renaming tabs as requested
-tab1, tab2 = st.tabs(["Base Model (DistilBERT)", "Fine-Tuned Model (Mistral)"])
+tab1, tab2 = st.tabs(["Base Model (DistilBERT)", "LLM (Mistral)"])
 
 # --- Tab 1: Base Model (DistilBERT) ---
 with tab1:
-    st.header("Chat with Base Model (DistilBERT)")
+    st.header("Chat with finetuned Model (DistilBERT)")
 
     # Display chat messages (using messages_base for this tab now)
     for message in st.session_state.messages_base:
@@ -105,7 +106,7 @@ with tab1:
             st.markdown(message["content"])
 
     # Handle user input
-    if user_query_base := st.chat_input("Ask the base DistilBERT model..."):
+    if user_query_base := st.chat_input("Ask the finetuned DistilBERT model..."):
         # Add user message to history and display
         st.session_state.messages_base.append({"role": "user", "content": user_query_base})
         with st.chat_message("user"):
@@ -117,7 +118,7 @@ with tab1:
             with st.spinner("Thinking..."):
                 try:
                     # Call the function from distillbert.py
-                    final_answer = get_distilbert_answer(user_query_base)
+                    final_answer = get_distilbert_answer(user_query_base,user_query_base)
                 except Exception as e:
                     st.error(f"An error occurred: {e}")
                     final_answer = "Sorry, I encountered an issue processing your request."
@@ -129,7 +130,7 @@ with tab1:
 
 # --- Tab 2: Fine-Tuned Model (Mistral) ---
 with tab2:
-    st.header("Chat with Fine-Tuned Model (Mistral)")
+    st.header("Chat with LLM (Mistral)")
 
     # Display chat messages (using messages_tuned for this tab now)
     for message in st.session_state.messages_tuned:

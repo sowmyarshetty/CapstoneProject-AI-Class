@@ -15,17 +15,20 @@ from langchain.document_loaders import TextLoader, CSVLoader, JSONLoader, PyPDFL
 from langchain.docstore.document import Document
 from langchain.vectorstores import FAISS
 from langchain.prompts import PromptTemplate
-faiss_index_path = "Resources/vector"
+
+# --- Paths for local execution ---
+faiss_index_path = "Resources/vector" # Original: "Resources/vector"
+env_file_path = "Resources/keys.env" # Original: "Resources/keys.env"
 
 def load_faiss_and_chat(query,faiss_index_path=faiss_index_path):
     embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
-    load_dotenv(find_dotenv('Resources\keys.env'))
+    load_dotenv(find_dotenv(env_file_path)) # Load .env from execution directory
     huggingfacehubapi = os.getenv('HuggingfaceRead')
-    
-    
+
+
     # Load FAISS vector store
-    vector_store = FAISS.load_local(faiss_index_path, embedding_model,allow_dangerous_deserialization=True)
+    vector_store = FAISS.load_local(faiss_index_path, embedding_model,allow_dangerous_deserialization=True) # Load index from execution directory
 
 
     llm = HuggingFaceEndpoint(
@@ -38,14 +41,14 @@ def load_faiss_and_chat(query,faiss_index_path=faiss_index_path):
     # Custom prompt template
     prompt_template = PromptTemplate(
         input_variables=["context", "question","chat_history"],
-        template="""You are a helpful store assistant helping a customer based on the reviews and product info below. 
+        template="""You are a friendly  store assistant helping a customer based on the reviews and product info below. 
         If the answer is not in the context, say "I don't know." 
         When making recommendations, provide only the top 3 distinct products in the following format: 
-        Make sure to return the top 3 distinct recommendations. If there are duplicates, choose only one entry for each product.
-        **Recommendations**
-        1. [Product Title] , [price] , [color]
-            **Review**:[short summary from reviews]
-        Do not display the raw product data or context. Focus on generating helpful recommendations in a conversational tone.
+        - * Product Name 1
+        - * Product Name 2
+        - * Product Name 3
+        If there are duplicates, choose only one entry for each product.       
+        Do not include any additional information like price, color, rating, or category. Only list the product names.
         Chat History:
         {chat_history}
 
@@ -61,4 +64,4 @@ def load_faiss_and_chat(query,faiss_index_path=faiss_index_path):
                                                      combine_docs_chain_kwargs={"prompt" : prompt_template})
     
     response = qa_chain.invoke(query)
-    return (response['answer']) 
+    return (response['answer'])
