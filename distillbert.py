@@ -3,7 +3,7 @@ from transformers import pipeline
 import torch 
 
 
-your_model_dir = "Resources/distillbert"
+your_model_dir = "Resources/finetunedmodel"
 
 # Load model and tokenizer from a local folder containing safetensors
 
