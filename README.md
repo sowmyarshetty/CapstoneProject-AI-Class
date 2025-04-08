@@ -6,9 +6,8 @@
 1. [Contributors](#contributors)
 2. [Executive Summary](#executive-summary)
 3. [Project Objectives](#project-objectives)
-4. [Approach and Methodology](#approach-and-methodology)
-5. [Models](#models)
-6. [Tools and Techniques](#tools-and-techniques)
+4. [Approach and Modeling Process](#approach-and-modeling-process)
+5. [Tools and Techniques](#tools-and-techniques)
 
 ### Contributors
 
@@ -69,24 +68,20 @@ This system combines advanced Natural Language Processing techniques (NLP) to de
 * **RAG (Retrieval-Augmented Generation):** Enhances the chatbot's responses by integrating a custom knowledge base and vector data stores for more accurate, context-aware answers.
 * **Translation (TBD):** Potential future feature to support multilingual users by translating queries and responses.
 
-### Approach and Methodology
+### Approach and Modeling Process
 
-* Our approach utilizes the following: 
-  * Load the CSV data file
-  * Load the api key for HuggingfaceRead
-  * Load all the records in the dataframe as documents using the load_docs function
-  * Create the path for the vector database. 
-  * Call the store_incrementally_in_fiass function
-  * Create the function to load the vector database and chat (using HuggingFaceEndpoint mistralai/Mistral-7B-Instruct-v0.1 as the LLM) 
-  * Create a question answer retreival chain from langchain.chains framework
+1. **Load the CSV data file** containing Amazon reviews.
+2. **Load the API key** for accessing Hugging Face models.
+3. **Convert all records in the DataFrame into documents** using the load_docs function.
+4. **Define the path** for storing the vector database.
+5. **Store the document vectors incrementally** using the *store_incrementally_in_fiass* function.
+6. **Load the vector database and initialize the chat function** using the HuggingFaceEndpoint with the *mistralai/Mistral-7B-Instruct-v0.1* model as the LLM.
+7. **Create a question-answer retrieval chain** using the *langchain.chains* framework.
+8. **Use DistilBERT** *(DistilBertForQuestionAnswering)* as the first model for extracting answers from the documents.
+9. **Use Mistral-7B-Instruct-v0.1** as the second model for generating natural, context-aware responses.
+10. **Evaluate model performance** using the *F1 score* (balancing precision and recall) and the *BLEU score* (assessing language generation quality).
 
-#### Exploratory Data Analysis
 
-The dataset covers a wide age range of....
-
-###  Models
-
-The models used were....
 
 ### Tools and Techniques
 
