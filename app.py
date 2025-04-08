@@ -100,7 +100,7 @@ tab1, tab2 = st.tabs(["Fine-Tuned Model (DistilBERT)", "LLM (Mistral)"])
 with tab1:
     st.header("Chat with finetuned Model (DistilBERT)")
 
-    # Display chat messages (using messages_base for this tab now)
+    # Display chat messages (using messages_tuned for this tab now)
     for message in st.session_state.messages_tuned:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
@@ -108,7 +108,7 @@ with tab1:
     # Handle user input
     if user_query_base := st.chat_input("Ask the finetuned DistilBERT model..."):
         # Add user message to history and display
-        st.session_state.messages_base.append({"role": "user", "content": user_query_base})
+        st.session_state.messages_tuned.append({"role": "user", "content": user_query_base})
         with st.chat_message("user"):
             st.markdown(user_query_base)
 
@@ -126,7 +126,7 @@ with tab1:
                 # Display final answer
                 response_placeholder.markdown(final_answer)
                 # Append to the correct history
-                st.session_state.messages_base.append({"role": "assistant", "content": final_answer})
+                st.session_state.messages_tuned.append({"role": "assistant", "content": final_answer})
 
 # --- Tab 2: Fine-Tuned Model (Mistral) ---
 with tab2:
@@ -140,7 +140,7 @@ with tab2:
     # Handle user input
     if user_query_tuned := st.chat_input("Ask the Mistral model..."):
         # Add user message to history and display
-        st.session_state.messages_tuned.append({"role": "user", "content": user_query_tuned})
+        st.session_state.messages_base.append({"role": "user", "content": user_query_tuned})
         with st.chat_message("user"):
             st.markdown(user_query_tuned)
 
@@ -158,7 +158,7 @@ with tab2:
                 # Display final answer
                 response_placeholder.markdown(final_answer)
                 # Append to the correct history
-                st.session_state.messages_tuned.append({"role": "assistant", "content": final_answer})
+                st.session_state.messages_base.append({"role": "assistant", "content": final_answer})
 
 
 # --- Sidebar ---
