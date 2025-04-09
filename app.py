@@ -9,74 +9,90 @@ import torch
 st.markdown(
     """
 <style>
-    /* Target the main block container */
+    /* Overall app background and text color */
     .stApp {
-        /* background-color: #EAEDED; */ /* Uncomment for light grey background */
+        background-color: #0A0F1C; /* Deep space blue */
+        color: #FFFFFF; /* Global white text */
     }
-
-    /* Header */
+    /* Header container setup with background image */
     .header-container {
-        background-color: #232F3E;
-        padding: 10px 20px;
-        border-radius: 5px;
-        margin-bottom: 20px;
-        color: white;
+        background-color: transparent;
+        padding: 0;
+        margin-bottom: 40px; /* Space below header */
+        color: #FFFFFF;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
     }
+    /* ZonBot banner image */
+    .header-container::before {
+        content: "";
+        width: 100%;
+        max-width: 720px;
+        height: 236px;
+        background-image: url('Resources/ZonBot.jpg');
+        background-size: cover;
+        background-position: center;
+        border-radius: 8px;
+        box-shadow: 0 0 12px #0F50EC;
+        margin-bottom: 20px;
+    }
+    /* Header title */
     .header-container h1 {
-        color: white;
-        margin: 0;
+        color: #FFFFFF;
         font-size: 1.8em;
+        margin: 0;
         display: flex;
         align-items: center;
+        gap: 10px;
     }
+    /* AI badge in the header */
     .header-container h1 span {
-        color: #FF9900;
+        color: #39FF14;
         font-weight: bold;
-        font-size: 0.8em; /* Smaller 'AI' */
+        font-size: 0.8em;
         margin-left: 8px;
-        background-color: #4a5a6a; /* Darker badge background */
+        background-color: #3A0CA3;
         padding: 2px 6px;
         border-radius: 4px;
     }
-    /* Custom Amazon-like cart icon (using emoji) */
-     .header-container h1::before {
-        content: "🛒"; /* Cart Emoji */
-        margin-right: 10px;
-        font-size: 1.2em;
-     }
-
-
-    /* Chat Messages */
+    /* Chat messages container */
     [data-testid="stChatMessage"] {
         border-radius: 15px;
         padding: 0.75rem;
         margin-bottom: 1rem;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        border: 1px solid #D5DBDB; /* Subtle border */
+        box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        border: 1px solid #7D3C98;
     }
+    /* Assistant message bubble */
     [data-testid="stChatMessage"][data-testid="chatAvatarIcon-assistant"] > div > div {
-         background-color: #F1F1F1; /* Light grey for bot messages */
-         color: #0F1111;
+        background-color: #1B263B;
+        color: #FFFFFF;
     }
+    /* User message bubble */
     [data-testid="stChatMessage"][data-testid="chatAvatarIcon-user"] > div > div {
-         background-color: #E3F2FD; /* Light blue for user messages */
-         color: #0F1111;
+        background-color: #3D2C8D;
+        color: #FFFFFF;
     }
-
-    /* Input Area */
+    /* Input area for user interaction */
     [data-testid="stChatInput"] {
-        background-color: #FFFFFF;
-        border-top: 1px solid #CCCCCC;
-        box-shadow: 0 -2px 5px rgba(0,0,0,0.05);
+        background-color: #0D1B2A;
+        border-top: 1px solid #34495E;
+        box-shadow: 0 -2px 5px rgba(0,0,0,0.3);
+        color: #FFFFFF;
     }
-     /* Button styling (partially from theme, can override) */
+    /* Button styling */
     .stButton>button {
-        /* background-color: #FF9900; */ /* Theme primaryColor should handle this */
-        /* color: #FFFFFF; */
-        /* border: 1px solid #FF9900; */
-        border-radius: 8px; /* Slightly more rounded */
+        background-color: #39FF14;
+        color: #0A0F1C;
+        border: 1px solid #39FF14;
+        border-radius: 8px;
     }
-
+    /* Make sure other text elements are also white */
+    h2, h3, h4, h5, p, span, div {
+        color: #FFFFFF;
+    }
 </style>
 """,
     unsafe_allow_html=True,
