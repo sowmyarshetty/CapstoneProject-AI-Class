@@ -103,6 +103,6 @@ Getting Started with ZonBot (Amazon's Chatbot):
 1. Ensure that **Streamlit** is installed on your machine. You can install it using *pip install streamlit* if needed.
 2. **Download the entire repository** to your local machine for full functionality.
 3. Confirm that ALL of the **AmazonHomeKitchen.ipynb** files and the **Recourse folder** (including all its contents) are present—these are essential for ZonBot to operate correctly.
-4. Launch the app by running the **app.py** file. This is the main user interface and connects with both **LLMmodel.py** and **distillbert.py* in the background.
+4. Launch the app by running the **app.py** file. This is the main user interface and connects with both *LLMmodel.py* and *distillbert.py* in the background.
 
 
