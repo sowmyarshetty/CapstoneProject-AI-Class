@@ -57,6 +57,15 @@ Our Machine Learning approach addresses the challenge of finding the right produ
   * Wall Art
   * Small Appliance Parts
 
+### Our Solution for ZonBot (an AI Powered Chatbot)
+1. The chatbot enhances your Amazon shopping experience with AI-powered assistance
+2. Delivers top product recommendations with summarized reviews
+3. Identifies products within your desired price range (lowest to highest)
+4. Filters items based on your preferred features (e.g., color, size, brand)
+5. Saves you valuable time and money by streamlining your shopping process
+
+
+
 #### Data Modeling Strategy
 This system combines advanced Natural Language Processing techniques (NLP) to deliver intelligent, conversational product recommendations:
 
@@ -68,7 +77,7 @@ This system combines advanced Natural Language Processing techniques (NLP) to de
 * **RAG (Retrieval-Augmented Generation):** Enhances the chatbot's responses by integrating a custom knowledge base and vector data stores for more accurate, context-aware answers.
 * **Translation (TBD):** Potential future feature to support multilingual users by translating queries and responses.
 
-### Approach and Modeling Process
+### Modeling Process
 
 1. **Load the CSV data file** containing Amazon reviews.
 2. **Load the API key** for accessing Hugging Face models.
