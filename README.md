@@ -8,7 +8,7 @@
 3. [Project Objectives](#project-objectives)
 4. [Solution For Our-AI Powered Chatbot](#solution-for-our-ai-powered-chatbot)
 5. [Modeling Process](#modeling-process)
-6. [Instruction](#instructions)
+6. [Running Instructions](#running-instructions)
 
 ### Contributors
 
@@ -96,11 +96,11 @@ This system combines advanced Natural Language Processing techniques (NLP) to de
 
 ![Modeling Process](images/CAPSTONE_Project3_picture.png)
 
-### Instructions
+### Running Instructions
 
-* Pandas & Pandas Plotting
-* Python
-* Scikit-learn
-* Matplotlib
-* Numpy
+1. Make sure that Streamlit is loaded on your machine
+2. Download entire repository to your local machine
+3. Be certain that the Recource folder (and all contents) is loaded as they are important
+4. Run the **app.py** file, it is the primary file for the User Interface
+
 
