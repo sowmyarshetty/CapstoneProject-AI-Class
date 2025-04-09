@@ -1,3 +1,4 @@
+![header_image](Resources/ZonBot.jpg)
 # Easier Buying with ZONBOT: 
 ## Saving time and making purchasing decisions simpler with Amazon's ChatBot
 
@@ -7,8 +8,9 @@
 2. [Executive Summary](#executive-summary)
 3. [Project Objectives](#project-objectives)
 4. [Solution For Our-AI Powered Chatbot](#solution-for-our-ai-powered-chatbot)
-5. [Modeling Process](#modeling-process)
-6. [Running Instructions](#running-instructions)
+5. [Design and Development](#design-and-development)
+6. [Modeling Process](#modeling-process)
+7. [Running Instructions](#running-instructions)
 
 ### Contributors
 
@@ -80,6 +82,34 @@ This system combines advanced Natural Language Processing techniques (NLP) to de
 * **Translation (TBD):** Potential future feature to support multilingual users by translating queries and responses.
   
 ![Our_Strategy](images/CAPSTONE_Project1_picture.png)
+
+### Design and Development
+
+#### Overview
+
+* ZonBot is an intelligent shopping assistant built with **Streamlit** as the user interface.
+* It combines a powerful recommendation engine using two models:
+  * **DistilBERT** for Q&A based on Amazon product reviews
+  * **Mistral**, a large language model (LLM), for broader product understanding and reasoning
+* ZonBot delivers the **top 5 product recommendations** based on your search, helping you shop smarter and faster.
+
+#### Chatbot Workflow & User Interaction
+
+* Prompts users to enter a product keyword
+* Searches for products that contain the entered term
+* Extracts and displays a unique list of matching products
+* Users select a product from the list
+* The selected product, along with relevant context, is passed to the DistilBERT model to generate an intelligent response
+
+#### AI Architecture & Components
+
+* **DistilBERT:** Handles question answering using a subset of Amazon review data
+* **Mistral (LLM):** Uses prompt engineering on raw Amazon review data to provide broader insights
+* **Transformers:** Used to train neural network models for natural language understanding
+* **Hugging Face Embeddings:** Convert text data into vector format for similarity-based searching
+* **RAG (Retrieval-Augmented Generation):** Enhances LLM accuracy by pulling in relevant information from embedded review data
+* **Vector Data Stores:** Store and retrieve high-dimensional review embeddings to enable semantic search
+* **PyTorch:** Serves as the core deep learning framework powering the model training and inference
 
 ### Modeling Process
 
