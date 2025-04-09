@@ -1,13 +1,14 @@
-# Easier Buying, Happier Home: 
-## Saving time and making purchasing decisions simpler in the kitchen and home
+# Easier Buying with ZONBOT: 
+## Saving time and making purchasing decisions simpler with Amazon's ChatBot
 
 ### Table of Contents
 
 1. [Contributors](#contributors)
 2. [Executive Summary](#executive-summary)
 3. [Project Objectives](#project-objectives)
-4. [Approach and Modeling Process](#approach-and-modeling-process)
-5. [Tools and Techniques](#tools-and-techniques)
+4. [Solution For Our-AI Powered Chatbot](#solution-for-our-ai-powered-chatbot)
+5. [Modeling Process](#modeling-process)
+6. [Running Instructions](#running-instructions)
 
 ### Contributors
 
@@ -57,6 +58,16 @@ Our Machine Learning approach addresses the challenge of finding the right produ
   * Wall Art
   * Small Appliance Parts
 
+### Solution For Our AI-Powered Chatbot
+
+1. The chatbot enhances your Amazon shopping experience with AI-powered assistance
+2. Delivers top product recommendations with summarized reviews
+3. Identifies products within your desired price range (lowest to highest)
+4. Filters items based on your preferred features (e.g., color, size, brand)
+5. Saves you valuable time and money by streamlining your shopping process
+
+![Our_Solution](images/CAPSTONE_Project2_picture.png)
+
 #### Data Modeling Strategy
 This system combines advanced Natural Language Processing techniques (NLP) to deliver intelligent, conversational product recommendations:
 
@@ -67,8 +78,10 @@ This system combines advanced Natural Language Processing techniques (NLP) to de
 * **PyTorch Library:** Core machine learning framework used for training and deploying custom models.
 * **RAG (Retrieval-Augmented Generation):** Enhances the chatbot's responses by integrating a custom knowledge base and vector data stores for more accurate, context-aware answers.
 * **Translation (TBD):** Potential future feature to support multilingual users by translating queries and responses.
+  
+![Our_Strategy](images/CAPSTONE_Project1_picture.png)
 
-### Approach and Modeling Process
+### Modeling Process
 
 1. **Load the CSV data file** containing Amazon reviews.
 2. **Load the API key** for accessing Hugging Face models.
@@ -81,13 +94,13 @@ This system combines advanced Natural Language Processing techniques (NLP) to de
 9. **Use Mistral-7B-Instruct-v0.1** as the second model for generating natural, context-aware responses.
 10. **Evaluate model performance** using the *F1 score* (balancing precision and recall) and the *BLEU score* (assessing language generation quality).
 
+![Modeling Process](images/CAPSTONE_Project3_picture.png)
 
+### Running Instructions
 
-### Tools and Techniques
+1. Make sure that Streamlit is loaded on your machine
+2. Download entire repository to your local machine
+3. Be certain that the Recource folder (and all contents) is loaded as they are important
+4. Run the **app.py** file, it is the primary file for the User Interface
 
-* Pandas & Pandas Plotting
-* Python
-* Scikit-learn
-* Matplotlib
-* Numpy
 
