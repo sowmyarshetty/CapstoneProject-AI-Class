@@ -1,3 +1,4 @@
+![header_image](Resources/ZonBot.jpg)
 # Easier Buying with ZONBOT: 
 ## Saving time and making purchasing decisions simpler with Amazon's ChatBot
 
@@ -7,8 +8,9 @@
 2. [Executive Summary](#executive-summary)
 3. [Project Objectives](#project-objectives)
 4. [Solution For Our-AI Powered Chatbot](#solution-for-our-ai-powered-chatbot)
-5. [Modeling Process](#modeling-process)
-6. [Running Instructions](#running-instructions)
+5. [Design and Development](#design-and-development)
+6. [Modeling Process](#modeling-process)
+7. [Running Instructions](#running-instructions)
 
 ### Contributors
 
@@ -81,6 +83,34 @@ This system combines advanced Natural Language Processing techniques (NLP) to de
   
 ![Our_Strategy](images/CAPSTONE_Project1_picture.png)
 
+### Design and Development
+
+#### Overview
+
+* ZonBot is an intelligent shopping assistant built with **Streamlit** as the user interface.
+* It combines a powerful recommendation engine using two models:
+  * **DistilBERT** for Q&A based on Amazon product reviews
+  * **Mistral**, a large language model (LLM), for broader product understanding and reasoning
+* ZonBot delivers the **top 5 product recommendations** based on your search, helping you shop smarter and faster.
+
+#### Chatbot Workflow & User Interaction
+
+* Prompts users to enter a product keyword
+* Searches for products that contain the entered term
+* Extracts and displays a unique list of matching products
+* Users select a product from the list
+* The selected product, along with relevant context, is passed to the DistilBERT model to generate an intelligent response
+
+#### AI Architecture & Components
+
+* **DistilBERT:** Handles question answering using a subset of Amazon review data
+* **Mistral (LLM):** Uses prompt engineering on raw Amazon review data to provide broader insights
+* **Transformers:** Used to train neural network models for natural language understanding
+* **Hugging Face Embeddings:** Convert text data into vector format for similarity-based searching
+* **RAG (Retrieval-Augmented Generation):** Enhances LLM accuracy by pulling in relevant information from embedded review data
+* **Vector Data Stores:** Store and retrieve high-dimensional review embeddings to enable semantic search
+* **PyTorch:** Serves as the core deep learning framework powering the model training and inference
+
 ### Modeling Process
 
 1. **Load the CSV data file** containing Amazon reviews.
@@ -98,9 +128,11 @@ This system combines advanced Natural Language Processing techniques (NLP) to de
 
 ### Running Instructions
 
-1. Make sure that Streamlit is loaded on your machine
-2. Download entire repository to your local machine
-3. Be certain that the Recource folder (and all contents) is loaded as they are important
-4. Run the **app.py** file, it is the primary file for the User Interface
+Getting Started with ZonBot (Amazon's Chatbot):
+
+1. Ensure that **Streamlit** is installed on your machine. You can install it using *pip install streamlit* if needed.
+2. **Download the entire repository** to your local machine for full functionality.
+3. Confirm that ALL of the **AmazonHomeKitchen.ipynb** files and the **Recourse folder** (including all its contents) are present—these are essential for ZonBot to operate correctly.
+4. Launch the app by running the **app.py** file. This is the main user interface and connects with both *LLMmodel.py* and *distillbert.py* in the background.
 
 
