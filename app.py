@@ -118,7 +118,7 @@ with tab1:
             with st.spinner("Thinking..."):
                 try:
                     # Call the function from distillbert.py
-                    final_answer = get_distilbert_answer(user_query_base,user_query_base)
+                    final_answer = get_distilbert_answer(user_query_base)
                 except Exception as e:
                     st.error(f"An error occurred: {e}")
                     final_answer = "Sorry, I encountered an issue processing your request."
