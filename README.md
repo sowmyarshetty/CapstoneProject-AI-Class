@@ -6,7 +6,7 @@
 1. [Contributors](#contributors)
 2. [Executive Summary](#executive-summary)
 3. [Project Objectives](#project-objectives)
-4. [Our Solution for ZonBot (an AI Powered Chatbot)](#our-solution-for-zonBot-(an-ai-powered-chatbot))
+4. [Solution For Our-AI Powered Chatbot](#solution-for-our-ai-powered-chatbot)
 5. [Modeling Process](#modeling-process)
 6. [Instruction](#instructions)
 
@@ -58,7 +58,8 @@ Our Machine Learning approach addresses the challenge of finding the right produ
   * Wall Art
   * Small Appliance Parts
 
-### Our Solution for ZonBot (an AI Powered Chatbot)
+### Solution For Our AI-Powered Chatbot
+
 1. The chatbot enhances your Amazon shopping experience with AI-powered assistance
 2. Delivers top product recommendations with summarized reviews
 3. Identifies products within your desired price range (lowest to highest)
