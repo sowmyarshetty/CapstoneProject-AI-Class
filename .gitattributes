@@ -1,3 +1,6 @@
 *.safetensors filter=lfs diff=lfs merge=lfs -text
 *.faiss filter=lfs diff=lfs merge=lfs -text
 *.pkl filter=lfs diff=lfs merge=lfs -text
+Resources/finetunedmodel/model.safetensors filter=lfs diff=lfs merge=lfs -text
+Resources/vector/index.faiss filter=lfs diff=lfs merge=lfs -text
+Resources/vector/index.pkl filter=lfs diff=lfs merge=lfs -text
