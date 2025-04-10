@@ -1,4 +1,4 @@
-![header_image](Resources/ZonBot.jpg)
+![header_image](images/ZonBot.jpg)
 # Easier Buying with ZONBOT: 
 ## Saving time and making purchasing decisions simpler with Amazon's ChatBot
 
@@ -31,6 +31,7 @@ This project features a chatbot assistant built with Streamlit, designed to serv
 * **Chatbot Assistant (Built with Streamlit):** A user-friendly interface that allows interactive conversations and product recommendations.
 * **DistilBERT – Question and Answering Model:** A lightweight transformer model used to extract relevant information from a subset of Amazon review data.
 * **Large Language Model (LLM) – Mistral with Prompt Engineering:** Processes raw Amazon review data using tailored prompts to generate accurate and context-aware responses.
+* **Sentence-Transformer LML6 – Semantic Similarity Model:** Computes sentence embeddings to identify and match semantically similar Amazon reviews for enhanced recommendation accuracy.
 
 
 ### Project Objectives
@@ -81,7 +82,7 @@ This system combines advanced Natural Language Processing techniques (NLP) to de
 * **RAG (Retrieval-Augmented Generation):** Enhances the chatbot's responses by integrating a custom knowledge base and vector data stores for more accurate, context-aware answers.
 * **Translation (TBD):** Potential future feature to support multilingual users by translating queries and responses.
   
-![Our_Strategy](images/CAPSTONE_Project1_picture.png)
+![Our_Strategy](images/flow_chart.png)
 
 ### Design and Development
 
@@ -124,7 +125,13 @@ This system combines advanced Natural Language Processing techniques (NLP) to de
 9. **Use Mistral-7B-Instruct-v0.1** as the second model for generating natural, context-aware responses.
 10. **Evaluate model performance** using the *F1 score* (balancing precision and recall) and the *BLEU score* (assessing language generation quality).
 
-![Modeling Process](images/CAPSTONE_Project3_picture.png)
+### Modeling Optimization
+
+![Training_Loss](images/MiniLM_training_loss.png)
+
+![Grad_Norm](images/model_grad_norm.png)
+
+![Learning_Rate](images/model_learning_rate.png)
 
 ### Running Instructions
 
