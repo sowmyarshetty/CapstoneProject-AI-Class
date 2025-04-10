@@ -19,7 +19,7 @@ faiss_path = os.path.join("Resources/vector")
 
 # Initialize the Mistral model with updated parameters
 llm_model = HuggingFaceEndpoint(
-    repo_id="mistralai/Mixtral-8x7B-Instruct-v0.1",
+    repo_id="mistralai/Mixtral-8x7B-Instruct-v0.1", 
     temperature=0.1,
     max_new_tokens=512,
     huggingfacehub_api_token=huggingfacehubapi,
