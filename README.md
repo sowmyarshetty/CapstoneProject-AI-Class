@@ -69,8 +69,6 @@ Our Machine Learning approach addresses the challenge of finding the right produ
 4. Filters items based on your preferred features (e.g., color, size, brand)
 5. Saves you valuable time and money by streamlining your shopping process
 
-![Our_Solution](images/CAPSTONE_Project2_picture.png)
-
 #### Data Modeling Strategy
 This system combines advanced Natural Language Processing techniques (NLP) to deliver intelligent, conversational product recommendations:
 
@@ -126,11 +124,13 @@ This system combines advanced Natural Language Processing techniques (NLP) to de
 10. **Evaluate model performance** using the *F1 score* (balancing precision and recall) and the *BLEU score* (assessing language generation quality).
 
 ### Modeling Optimization
-
+The downward trend in the training loss indicates that the model is improving its ability to fit the training data — it's making fewer mistakes.
 ![Training_Loss](images/MiniLM_training_loss.png)
 
+The model is making smaller updates over time, which typically suggests it's converging — it's gradually adjusting weights with less intensity. This is a good sign, especially early in training, as it reflects the model settling into a local or global minimum in the loss landscape.
 ![Grad_Norm](images/model_grad_norm.png)
 
+The learning rate is steadily decreasing from about 2.95e-5 to around 2.73e-5 over the training steps. This is a classic learning rate decay schedule — usually done to help the model stabilize and fine-tune during training.
 ![Learning_Rate](images/model_learning_rate.png)
 
 ### Running Instructions
