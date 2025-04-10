@@ -96,6 +96,13 @@ st.markdown(
         box-shadow: 0 -2px 5px rgba(0,0,0,0.3);
         color: #FFFFFF;
     }
+    /* Input area for user interaction */
+    [data-testid="stChatInputTextArea"] {
+        background-color: #0D1B2A;
+        border-top: 1px solid #34495E;
+        box-shadow: 0 -2px 5px rgba(0,0,0,0.3);
+        color: #FFFFFF;
+    }
     /* Button styling */
     .stButton>button {
         background-color: #39FF14;
@@ -103,10 +110,43 @@ st.markdown(
         border: 1px solid #39FF14;
         border-radius: 8px;
     }
+    .text1 { color: "#FFFFFF"}
     /* Make sure other text elements are also white */
-    h2, h3, h4, h5, p, span, div {
+    h2, h3, h4, h5 ,p,span,div{
         color: #FFFFFF;
     }
+     
+    /* Target the main select box container */
+    div[data-baseweb="select"] {
+        background-color: #000000;
+        border-radius: 8px;
+        padding: 5px;
+        color: white;
+    }
+
+    /* Style the selected value */
+    div[data-baseweb="select"] div[role="button"] {
+        color: white;
+        background-color: #000000;
+        font-weight: bold;
+    }
+
+    /* Optional: Style the dropdown list (on click) */
+    ul[role="listbox"] {
+        background-color: #000000;
+        color: white;
+    }
+
+    li[role="option"] {
+        color: #000000;
+        }
+        
+    /* Optional: Change hover effect on dropdown options */
+    li[role="option"]:hover {
+        background-color: #000000;
+        color: white;
+    }
+   
 </style>
 """,
     unsafe_allow_html=True,
@@ -114,7 +154,7 @@ st.markdown(
 
 # Custom Header Display
 st.markdown('<div class="header-container"><h1>Review Assistant <span>AI</span></h1></div>', unsafe_allow_html=True)
-st.markdown("Ask questions about home and kitchen products based on reviews.")
+st.markdown('<div class="text1"><h4> Ask questions about home and kitchen products based on reviews.</h4></div>',unsafe_allow_html=True)
 
 # --- Initialize Session State for Chat Histories ---
 if "messages_tuned" not in st.session_state:
@@ -136,11 +176,11 @@ with tab1:
             st.markdown(message["content"])
 
     # Handle user input
-    if user_query_base := st.chat_input("Ask the finetuned DistilBERT model..."):
+    if user_query_tuned := st.chat_input('Ask the finetuned DistilBERT model...'):
         # Add user message to history and display
-        st.session_state.messages_tuned.append({"role": "user", "content": user_query_base})
+        st.session_state.messages_tuned.append({"role": "user", "content": user_query_tuned})
         with st.chat_message("user"):
-            st.markdown(user_query_base)
+            st.markdown(user_query_tuned)
 
         # Generate and display assistant response
         with st.chat_message("assistant"):
@@ -148,7 +188,7 @@ with tab1:
             with st.spinner("Thinking..."):
                 try:
                     # Call the function from distillbert.py
-                    final_answer = get_distilbert_answer(user_query_base)
+                    final_answer = get_distilbert_answer(user_query_tuned)
                 except Exception as e:
                     st.error(f"An error occurred: {e}")
                     final_answer = "Sorry, I encountered an issue processing your request."
@@ -162,17 +202,17 @@ with tab1:
 with tab2:
     st.header("Chat with LLM (Mistral)")
 
-    # Display chat messages (using messages_tuned for this tab now)
+    # Display chat messages (using messages_base for this tab now)
     for message in st.session_state.messages_base:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
 
     # Handle user input
-    if user_query_tuned := st.chat_input("Ask the Mistral model..."):
+    if user_query_base := st.chat_input("Ask the Mistral model..."):
         # Add user message to history and display
-        st.session_state.messages_base.append({"role": "user", "content": user_query_tuned})
+        st.session_state.messages_base.append({"role": "user", "content": user_query_base})
         with st.chat_message("user"):
-            st.markdown(user_query_tuned)
+            st.markdown(user_query_base)
 
         # Generate and display assistant response
         with st.chat_message("assistant"):
@@ -180,7 +220,7 @@ with tab2:
             with st.spinner("Thinking..."):
                 try:
                     # Call the function from llmmodel.py (Mistral)
-                    final_answer = process_query(user_query_tuned)
+                    final_answer = process_query(user_query_base)
                 except Exception as e:
                     st.error(f"An error occurred: {e}")
                     final_answer = "Sorry, I encountered an issue processing your request."

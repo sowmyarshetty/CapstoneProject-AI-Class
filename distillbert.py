@@ -58,6 +58,7 @@ def get_context(query):
         
         for i, title in enumerate(selectedtitlelist):
             st.markdown((f"{i + 1}. {title}"))
+            # st.markdown(f"<div style='color :black'></div>,{i + 1}.{title} ,unsafe_allow_html")
             # print((f"{i + 1}. {title}"))
 
         # choice = int(input("Select the number of the product you are interested in: "))
