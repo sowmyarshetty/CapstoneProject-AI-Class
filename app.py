@@ -1,10 +1,14 @@
 import streamlit as st
 from llmmodel import process_query # For Mistral tab
 from distillbert import get_distilbert_answer # For DistilBERT tab
+# from agentmodel import process_user_query
+from miniLMsentencetransformer import sentencetransformerprocess_user_query
 import torch
 import os
 from PIL import Image
 import base64
+
+
 # --- Helper function to load and encode the image ---
 def get_base64_image(image_path):
     with open(image_path, "rb") as image_file:
@@ -162,9 +166,12 @@ if "messages_tuned" not in st.session_state:
 if "messages_base" not in st.session_state:
     st.session_state.messages_base = [{"role": "assistant", "content": "Hi! Ask me anything about the product- LLM (Mistral))."}]
 
+if "messages_LML6v2" not in st.session_state:
+    st.session_state.messages_LML6v2 = [{"role": "assistant", "content": "Hi! Ask me anything about the product- LML6v2 (Sentence Transformer) v2."}]
+
 # --- Create Tabs ---
 # Renaming tabs as requested
-tab1, tab2 = st.tabs(["Fine-Tuned Model (DistilBERT)", "LLM (Mistral)"])
+tab1, tab2, tab3 = st.tabs(["Fine-Tuned Model (DistilBERT)", "Sentence-transformer LML6", "LLM (Mistral)"])
 
 # --- Tab 1: Base Model (DistilBERT) ---
 with tab1:
@@ -198,8 +205,40 @@ with tab1:
                 # Append to the correct history
                 st.session_state.messages_tuned.append({"role": "assistant", "content": final_answer})
 
-# --- Tab 2: Fine-Tuned Model (Mistral) ---
+# --- Tab 2: Sentence Transformer (LML6v2) ---   
 with tab2:
+    st.header("Chat with Sentence Transformer (LMv2)")
+
+    # Display chat messages (using messages_LMv2 for this tab now)
+    for message in st.session_state.messages_LML6v2:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
+
+    # Handle user input
+    if user_query_LML6v2 := st.chat_input('Ask the Sentence-transformer LML6 model...'):
+        # Add user message to history and display
+        st.session_state.messages_LML6v2.append({"role": "user", "content": user_query_LML6v2})
+        with st.chat_message("user"):
+            st.markdown(user_query_LML6v2)
+
+        # Generate and display assistant response
+        with st.chat_message("assistant"):
+            response_placeholder = st.empty()
+            with st.spinner("Thinking..."):
+                try:
+                    # Call the function from sentence_transformer.py (LML6v2)
+                    final_answer = sentencetransformerprocess_user_query(user_query_LML6v2)
+                except Exception as e:
+                    st.error(f"An error occurred: {e}")
+                    final_answer = "Sorry, I encountered an issue processing your request."
+
+                # Display final answer
+                response_placeholder.markdown(final_answer)
+                # Append to the correct history
+                st.session_state.messages_LML6v2.append({"role": "assistant", "content": final_answer})
+                
+# --- Tab 3: Fine-Tuned Model (Mistral) ---
+with tab3:
     st.header("Chat with LLM (Mistral)")
 
     # Display chat messages (using messages_base for this tab now)
@@ -218,12 +257,22 @@ with tab2:
         with st.chat_message("assistant"):
             response_placeholder = st.empty()
             with st.spinner("Thinking..."):
+                # try:
+                #     # Process user query using the updated process function
+                #     final_answer = process_user_query(user_query_base)
+                #     if isinstance(final_answer, dict):  # If it's a dictionary, extract the answer
+                #         final_answer = final_answer["answer"]
+                # except Exception as e:
+                #     st.error(f"An error occurred: {e}")
+                #     final_answer = "Sorry, I encountered an issue processing your request."
+
                 try:
                     # Call the function from llmmodel.py (Mistral)
                     final_answer = process_query(user_query_base)
                 except Exception as e:
                     st.error(f"An error occurred: {e}")
                     final_answer = "Sorry, I encountered an issue processing your request."
+
 
                 # Display final answer
                 response_placeholder.markdown(final_answer)
@@ -237,4 +286,5 @@ with st.sidebar:
     if st.button("Clear All Chat History"):
         st.session_state.messages_tuned = [{"role": "assistant", "content": "Chat history cleared. Ask me a new question!"}]
         st.session_state.messages_base = [{"role": "assistant", "content": "Chat history cleared. Ask me a new question!"}]
+        st.session_state.messages_LML6v2 = [{"role": "assistant", "content": "Chat history cleared. Ask me a new question!"}]
         st.rerun()
