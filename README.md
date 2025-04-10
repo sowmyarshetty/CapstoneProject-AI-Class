@@ -10,7 +10,8 @@
 4. [Solution For Our-AI Powered Chatbot](#solution-for-our-ai-powered-chatbot)
 5. [Design and Development](#design-and-development)
 6. [Modeling Process](#modeling-process)
-7. [Running Instructions](#running-instructions)
+7. [Modeling Optimazation](#modeling-optimization)
+8. [Running Instructions](#running-instructions)
 
 ### Contributors
 
@@ -130,7 +131,7 @@ The downward trend in the training loss indicates that the model is improving it
 The model is making smaller updates over time, which typically suggests it's converging — it's gradually adjusting weights with less intensity. This is a good sign, especially early in training, as it reflects the model settling into a local or global minimum in the loss landscape.
 ![Grad_Norm](images/model_grad_norm.png)
 
-The learning rate is steadily decreasing from about 2.95e-5 to around 2.73e-5 over the training steps. This is a classic learning rate decay schedule — usually done to help the model stabilize and fine-tune during training.
+The learning rate is steadily decreasing from about *2.95e-5* to around *2.73e-5* over the training steps. This is a classic learning rate decay schedule — usually done to help the model stabilize and fine-tune during training. That dip in gradient norm near step 2000 coincides with a lower learning rate, which is expected — as gradients shrink, updates are smaller.
 ![Learning_Rate](images/model_learning_rate.png)
 
 ### Running Instructions
