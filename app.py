@@ -2,7 +2,7 @@ import streamlit as st
 from llmmodel import process_query # For Mistral tab
 from distillbert import get_distilbert_answer # For DistilBERT tab
 # from agentmodel import process_user_query
-from miniLMsentencetransformer import sentencetransformerprocess_user_query
+from miniLMsentencetransformer import st_process_user_query
 import torch
 import os
 from PIL import Image
@@ -227,7 +227,7 @@ with tab2:
             with st.spinner("Thinking..."):
                 try:
                     # Call the function from sentence_transformer.py (LML6v2)
-                    final_answer = sentencetransformerprocess_user_query(user_query_LML6v2)
+                    final_answer = st_process_user_query(user_query_LML6v2)
                 except Exception as e:
                     st.error(f"An error occurred: {e}")
                     final_answer = "Sorry, I encountered an issue processing your request."
@@ -258,10 +258,8 @@ with tab3:
             response_placeholder = st.empty()
             with st.spinner("Thinking..."):
                 # try:
-                #     # Process user query using the updated process function
+                #     # Call the function from llmmodel.py (Mistral)
                 #     final_answer = process_user_query(user_query_base)
-                #     if isinstance(final_answer, dict):  # If it's a dictionary, extract the answer
-                #         final_answer = final_answer["answer"]
                 # except Exception as e:
                 #     st.error(f"An error occurred: {e}")
                 #     final_answer = "Sorry, I encountered an issue processing your request."

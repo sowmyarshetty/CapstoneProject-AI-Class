@@ -1,4 +1,3 @@
-
 import re
 import os
 import numpy as np
@@ -14,14 +13,14 @@ from langchain_community.vectorstores import FAISS
 
 
 # Load your fine-tuned model once
-
 print(os.listdir("Resources/amazon-qa-model-MultipleNegativesRankingLoss"))#great it works
 model_path = os.path.join("Resources/amazon-qa-model-MultipleNegativesRankingLoss/amazon-qa-model-MultipleNegativesRankingLoss")
+
+
 
 data_path = os.path.join("Resources/review_qa_df.csv")
 faiss_path = os.path.join("Resources/vectorst")
 st_faiss_indexname = os.path.join("Resources/vectorst/index.faiss")
-
 
 
 @st.cache_data
@@ -66,29 +65,10 @@ for _, row in review_qa_df.iterrows():
         'product_name': product_name
     })
 
-# Generate embeddings for all answers
-# answer_embeddings = model.encode(answer_texts, convert_to_tensor=False, show_progress_bar=True)
-
-# Use FAISS for faster similarity search with large datasets
-# dimension = answer_embeddings.shape[1]
-
-# Inner product (cosine on normalized vectors)
-# faiss_index_st = faiss.IndexFlatIP(dimension) 
-
-# Normalize vectors for cosine similarity
-# faiss.normalize_L2(answer_embeddings) 
-# faiss_index_st.add(answer_embeddings)
-
-# if not os.path.exists(faiss_path):
-#     faiss.write_index(faiss_index_st, faiss_path)
-#     print(f"FAISS index saved to {faiss_path}")
-# else:
-#     print(f"File {faiss_path} already exists. Skipping save.")
-
 
 faiss_index_st = load_faiss_index(st_faiss_indexname)
 
-def sentencetransformerprocess_user_query(user_query, top_k=1):
+def st_process_user_query(user_query, top_k=1):
     """
     Handles both metadata-style queries and normal similarity search.
     """
@@ -142,8 +122,6 @@ def sentencetransformerprocess_user_query(user_query, top_k=1):
 
     if not results:
         return "I didn't find any answers that meet your rating criteria."
-
-    return "\n\n---\n\n".join(results)
-
-  
+    #can we return each result on a new line
+    return  "\n\n----\n\n".join(results)
 

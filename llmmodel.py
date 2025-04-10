@@ -33,12 +33,18 @@ def load_faiss_and_chat(faiss_index_path=faiss_index_path):
     # Load FAISS vector store
     vector_store = FAISS.load_local(faiss_index_path, embedding_model,allow_dangerous_deserialization=True) # Load index from execution directory
 
-
     llm = HuggingFaceEndpoint(
-        repo_id="mistralai/Mistral-7B-Instruct-v0.1",
-        temperature=0.7,
+        repo_id="mistralai/Mixtral-8x7B-Instruct-v0.1",
+        temperature=0.1,
         max_new_tokens=512,
         huggingfacehub_api_token=huggingfacehubapi)
+
+
+    # llm = HuggingFaceEndpoint(
+    #     repo_id="mistralai/Mistral-7B-Instruct-v0.1",
+    #     temperature=0.7,
+    #     max_new_tokens=512,
+    #     huggingfacehub_api_token=huggingfacehubapi)
     
 
     # Custom prompt template
