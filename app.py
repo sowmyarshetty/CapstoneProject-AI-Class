@@ -1,7 +1,21 @@
 import streamlit as st
 from llmmodel import process_query # For Mistral tab
 from distillbert import get_distilbert_answer # For DistilBERT tab
-import torch 
+import torch
+import os
+from PIL import Image
+import base64
+# --- Helper function to load and encode the image ---
+def get_base64_image(image_path):
+    with open(image_path, "rb") as image_file:
+        return base64.b64encode(image_file.read()).decode()
+# Get the path to ZonBot image
+image_path = os.path.join("Resources", "ZonBot.jpg")
+if os.path.exists(image_path):
+    encoded_image = get_base64_image(image_path)
+else:
+    st.error(f"Image not found at {image_path}")
+    encoded_image = ""
 
 # --- Streamlit UI Elements ---
 
@@ -31,7 +45,7 @@ st.markdown(
         width: 100%;
         max-width: 720px;
         height: 236px;
-        background-image: url('Resources/ZonBot.jpg');
+        background-image: url('data:image/jpeg;base64,""" + encoded_image + """');
         background-size: cover;
         background-position: center;
         border-radius: 8px;
