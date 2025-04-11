@@ -81,9 +81,10 @@ This system combines advanced Natural Language Processing techniques (NLP) to de
 * **RAG (Retrieval-Augmented Generation):** Enhances the chatbot's responses by integrating a custom knowledge base and vector data stores for more accurate, context-aware answers.
 * **Translation (TBD):** Potential future feature to support multilingual users by translating queries and responses.
   
-![Our_Strategy](images/flow_chart.png)
+
 
 ### Design and Development
+![Our_Strategy](images/model_progession.png)
 
 #### Overview
 
@@ -95,11 +96,27 @@ This system combines advanced Natural Language Processing techniques (NLP) to de
 
 #### Chatbot Workflow & User Interaction
 
-* Prompts users to enter a product keyword
-* Searches for products that contain the entered term
-* Extracts and displays a unique list of matching products
-* Users select a product from the list
-* The selected product, along with relevant context, is passed to the DistilBERT model to generate an intelligent response
+![Our_Strategy](images/flow_chart.png)
+
+* User Query
+  * User submits a natural language question via the chatbot interface.
+* Text Preprocessing & Embedding
+  * The query is cleaned, tokenized, and transformed into a dense vector using an embedding model.
+  * Ensures compatibility with the vector-based retrieval system.
+* Vector Data Store
+  * Embedded query is compared against a database of pre-embedded Amazon reviews using FAISS (Facebook AI Similarity Search).
+  * Enables fast and efficient similarity search.
+* Top Relevant Reviews
+  * The system retrieves the most semantically relevant reviews related to the user query.
+* Dual Pathway Analysis
+  * Left Path: Sentence Transformer (FAISS) - Uses a Sentence-Transformer model to interpret and extract the best-matching answers from the retrieved reviews.
+* Right Path: Mistral 8x7B (RAG/FAISS)
+  * Applies a Retrieval-Augmented Generation (RAG) approach using Mistral 8x7B.
+  * Integrates review context into generated responses for higher fluency and depth.
+* Answer Selection & Response Formatting
+  * Outputs from both models are evaluated and formatted into a coherent, context-aware response.
+* ZonBot Final Response
+  * The final answer is delivered to the user through the chatbot interface.
 
 #### AI Architecture & Components
 
