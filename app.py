@@ -7,7 +7,7 @@ import torch
 import os
 from PIL import Image
 import base64
-
+ 
 
 # --- Helper function to load and encode the image ---
 def get_base64_image(image_path):
