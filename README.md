@@ -70,19 +70,6 @@ Our Machine Learning approach addresses the challenge of finding the right produ
 4. Filters items based on your preferred features (e.g., color, size, brand)
 5. Saves you valuable time and money by streamlining your shopping process
 
-#### Data Modeling Strategy
-This system combines advanced Natural Language Processing techniques (NLP) to deliver intelligent, conversational product recommendations:
-
-* **Sentiment Analysis (BERT-based, Hugging Face):** Uses a fine-tuned BERT model to analyze the sentiment of Amazon product reviews, enhancing the quality of recommendations.
-* **Question and Answering (DistilBERT via Hugging Face):** Implements DistilBERT to extract precise answers from review data, enabling the chatbot to respond to user queries effectively.
-* **Text Summarization (via LLM):** Summarizes large volumes of review content to present concise, relevant insights to the user.
-* **LangChain:** Used to manage the flow of conversation and integrate various LLM components seamlessly.
-* **PyTorch Library:** Core machine learning framework used for training and deploying custom models.
-* **RAG (Retrieval-Augmented Generation):** Enhances the chatbot's responses by integrating a custom knowledge base and vector data stores for more accurate, context-aware answers.
-* **Translation (TBD):** Potential future feature to support multilingual users by translating queries and responses.
-  
-
-
 ### Design and Development
 ![Our_Strategy](images/model_progression.png)
 
