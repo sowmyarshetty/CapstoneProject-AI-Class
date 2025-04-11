@@ -12,9 +12,14 @@ from langchain.chains import LLMMathChain
 from langchain.tools.retriever import create_retriever_tool
 from langchain.agents import initialize_agent
 import streamlit as st
+from dotenv import load_dotenv, find_dotenv
 
 #replace this with your own api key from .env file
-huggingfacehubapi = "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"
+env_file_path = "Resources/keys.env" # Original: 
+
+load_dotenv(find_dotenv(env_file_path)) # Load .env from execution directory
+huggingfacehubapi = os.getenv('HuggingfaceRead')
+
 faiss_path = os.path.join("Resources/vector")
 
 # Initialize the Mistral model with updated parameters
