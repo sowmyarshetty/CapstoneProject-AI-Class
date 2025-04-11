@@ -62,7 +62,7 @@ Our Machine Learning approach addresses the challenge of finding the right produ
   * Wall Art
   * Small Appliance Parts
 
-### Solution For Our AI-Powered Chatbot
+### Purpose For Our AI-Powered Chatbot
 
 1. The chatbot enhances your Amazon shopping experience with AI-powered assistance
 2. Delivers top product recommendations with summarized reviews
