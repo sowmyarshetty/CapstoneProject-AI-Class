@@ -7,7 +7,7 @@
 1. [Contributors](#contributors)
 2. [Executive Summary](#executive-summary)
 3. [Project Objectives](#project-objectives)
-4. [Solution For Our-AI Powered Chatbot](#solution-for-our-ai-powered-chatbot)
+4. [Purpose For Our-AI Powered Chatbot](#purpose-for-our-ai-powered-chatbot)
 5. [Design and Development](#design-and-development)
 6. [Modeling Process](#modeling-process)
 7. [Modeling Optimazation](#modeling-optimization)
