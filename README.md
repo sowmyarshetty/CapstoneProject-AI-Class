@@ -159,5 +159,6 @@ Getting Started with ZonBot (Amazon's Chatbot):
 5. Launch the app by running the **app.py** file. This is the main user interface and connects with both *LLMmodel.py* and *miniLMsentencetransformer.py* in the background.
 6. A **demonstration video** can be seen here: https://drive.google.com/drive/folders/1lhJ_R6L_CBbmKEIo9yVNMFvvQNazSDSv
 7. Please use your **HuggingfaceEndpoint APIKEY** for access
+8. Please refer to the **requirements.txt** file for the list of required libraries.
 
 
