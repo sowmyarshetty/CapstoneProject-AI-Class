@@ -84,49 +84,59 @@ This system combines advanced Natural Language Processing techniques (NLP) to de
 
 
 ### Design and Development
-![Our_Strategy](images/model_progession.png)
+![Our_Strategy](images/model_progression.png)
 
 #### Overview
 
-* ZonBot is an intelligent shopping assistant built with **Streamlit** as the user interface.
-* It combines a powerful recommendation engine using two models:
-  * **DistilBERT** for Q&A based on Amazon product reviews
-  * **Mistral**, a large language model (LLM), for broader product understanding and reasoning
-* ZonBot delivers the **top 5 product recommendations** based on your search, helping you shop smarter and faster.
+* **Model Progression Pipeline**
+  * DistilBERT
+    * Achieves 98% accuracy for returning ratings
+    * Lower performance (19%) for returning reviews
+  * MiniLML6
+    * Uses Cosine Similarity with scores of 91% and 84%
+    * Identified as the highest rated and most durable in testing
+  * LLM-Mistral 8x7B
+    * Leverages large model capacity to remember past conversations
+    * Powers complex and contextual interactions
+   
+* **Core ZonBot Features**
+  * 🔄 Real-time Interactions for responsive user experience
+  * 🧠 Dual Model Logic combining lightweight and heavyweight models
+  * 🧬 Embeddings + FAISS for fast and accurate semantic search
+  * 🧭 Dynamic Model Routing to optimize model selection per task
+  * ⚡ Combined Speed & Depth via efficient model orchestration
+  * 🌍 Use of Real-World Data for higher relevancy and robustness
+  * 🧩 Modular & Expandable Design to support future enhancements
+ 
+* **Key Technologies Used**
+  * 🔧 PyTorch – for custom model development and tuning
+  * 🌐 Streamlit – powering an interactive front-end UI
+  * 📚 Retrieval-Augmented Generation (RAG) – enhances responses with live document retrieval
+  * 🗃️ Vector Data Store – persistent, high-performance vector indexing for embeddings
 
 #### Chatbot Workflow & User Interaction
 
 ![Our_Strategy](images/flow_chart.png)
 
-* User Query
+* **User Query**
   * User submits a natural language question via the chatbot interface.
-* Text Preprocessing & Embedding
+* **Text Preprocessing & Embedding**
   * The query is cleaned, tokenized, and transformed into a dense vector using an embedding model.
   * Ensures compatibility with the vector-based retrieval system.
-* Vector Data Store
+* **Vector Data Store**
   * Embedded query is compared against a database of pre-embedded Amazon reviews using FAISS (Facebook AI Similarity Search).
   * Enables fast and efficient similarity search.
-* Top Relevant Reviews
+* **Top Relevant Reviews**
   * The system retrieves the most semantically relevant reviews related to the user query.
-* Dual Pathway Analysis
+* **Dual Pathway Analysis**
   * Left Path: Sentence Transformer (FAISS) - Uses a Sentence-Transformer model to interpret and extract the best-matching answers from the retrieved reviews.
-* Right Path: Mistral 8x7B (RAG/FAISS)
+* **Right Path: Mistral 8x7B (RAG/FAISS)**
   * Applies a Retrieval-Augmented Generation (RAG) approach using Mistral 8x7B.
   * Integrates review context into generated responses for higher fluency and depth.
-* Answer Selection & Response Formatting
+* **Answer Selection & Response Formatting**
   * Outputs from both models are evaluated and formatted into a coherent, context-aware response.
-* ZonBot Final Response
+* **ZonBot Final Response**
   * The final answer is delivered to the user through the chatbot interface.
-
-#### AI Architecture & Components
-
-* **DistilBERT:** Handles question answering using a subset of Amazon review data
-* **Mistral (LLM):** Uses prompt engineering on raw Amazon review data to provide broader insights
-* **Transformers:** Used to train neural network models for natural language understanding
-* **Hugging Face Embeddings:** Convert text data into vector format for similarity-based searching
-* **RAG (Retrieval-Augmented Generation):** Enhances LLM accuracy by pulling in relevant information from embedded review data
-* **Vector Data Stores:** Store and retrieve high-dimensional review embeddings to enable semantic search
-* **PyTorch:** Serves as the core deep learning framework powering the model training and inference
 
 ### Modeling Process
 
