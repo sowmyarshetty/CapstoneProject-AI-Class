@@ -1,4 +1,4 @@
-![header_image](Resources/ZonBot.jpg)
+![header_image](images/ZonBot.jpg)
 # Easier Buying with ZONBOT: 
 ## Saving time and making purchasing decisions simpler with Amazon's ChatBot
 
@@ -7,10 +7,11 @@
 1. [Contributors](#contributors)
 2. [Executive Summary](#executive-summary)
 3. [Project Objectives](#project-objectives)
-4. [Solution For Our-AI Powered Chatbot](#solution-for-our-ai-powered-chatbot)
+4. [Purpose For Our-AI Powered Chatbot](#purpose-for-our-ai-powered-chatbot)
 5. [Design and Development](#design-and-development)
 6. [Modeling Process](#modeling-process)
-7. [Running Instructions](#running-instructions)
+7. [Modeling Optimazation](#modeling-optimization)
+8. [Running Instructions](#running-instructions)
 
 ### Contributors
 
@@ -31,6 +32,7 @@ This project features a chatbot assistant built with Streamlit, designed to serv
 * **Chatbot Assistant (Built with Streamlit):** A user-friendly interface that allows interactive conversations and product recommendations.
 * **DistilBERT – Question and Answering Model:** A lightweight transformer model used to extract relevant information from a subset of Amazon review data.
 * **Large Language Model (LLM) – Mistral with Prompt Engineering:** Processes raw Amazon review data using tailored prompts to generate accurate and context-aware responses.
+* **Sentence-Transformer LML6 – Semantic Similarity Model:** Computes sentence embeddings to identify and match semantically similar Amazon reviews for enhanced recommendation accuracy.
 
 
 ### Project Objectives
@@ -60,7 +62,7 @@ Our Machine Learning approach addresses the challenge of finding the right produ
   * Wall Art
   * Small Appliance Parts
 
-### Solution For Our AI-Powered Chatbot
+### Purpose For Our AI-Powered Chatbot
 
 1. The chatbot enhances your Amazon shopping experience with AI-powered assistance
 2. Delivers top product recommendations with summarized reviews
@@ -68,48 +70,60 @@ Our Machine Learning approach addresses the challenge of finding the right produ
 4. Filters items based on your preferred features (e.g., color, size, brand)
 5. Saves you valuable time and money by streamlining your shopping process
 
-![Our_Solution](images/CAPSTONE_Project2_picture.png)
-
-#### Data Modeling Strategy
-This system combines advanced Natural Language Processing techniques (NLP) to deliver intelligent, conversational product recommendations:
-
-* **Sentiment Analysis (BERT-based, Hugging Face):** Uses a fine-tuned BERT model to analyze the sentiment of Amazon product reviews, enhancing the quality of recommendations.
-* **Question and Answering (DistilBERT via Hugging Face):** Implements DistilBERT to extract precise answers from review data, enabling the chatbot to respond to user queries effectively.
-* **Text Summarization (via LLM):** Summarizes large volumes of review content to present concise, relevant insights to the user.
-* **LangChain:** Used to manage the flow of conversation and integrate various LLM components seamlessly.
-* **PyTorch Library:** Core machine learning framework used for training and deploying custom models.
-* **RAG (Retrieval-Augmented Generation):** Enhances the chatbot's responses by integrating a custom knowledge base and vector data stores for more accurate, context-aware answers.
-* **Translation (TBD):** Potential future feature to support multilingual users by translating queries and responses.
-  
-![Our_Strategy](images/CAPSTONE_Project1_picture.png)
-
 ### Design and Development
+![Our_Strategy](images/model_progression.png)
 
 #### Overview
 
-* ZonBot is an intelligent shopping assistant built with **Streamlit** as the user interface.
-* It combines a powerful recommendation engine using two models:
-  * **DistilBERT** for Q&A based on Amazon product reviews
-  * **Mistral**, a large language model (LLM), for broader product understanding and reasoning
-* ZonBot delivers the **top 5 product recommendations** based on your search, helping you shop smarter and faster.
+* **Model Progression Pipeline**
+  * DistilBERT
+    * Achieves 98% accuracy for returning ratings
+    * Lower performance (19%) for returning reviews
+  * MiniLML6
+    * Uses Cosine Similarity with scores of 91% and 84%
+    * Identified as the highest rated and most durable in testing
+  * LLM-Mistral 8x7B
+    * Leverages large model capacity to remember past conversations
+    * Powers complex and contextual interactions
+   
+* **Core ZonBot Features**
+  * 🔄 Real-time Interactions for responsive user experience
+  * 🧠 Dual Model Logic combining lightweight and heavyweight models
+  * 🧬 Embeddings + FAISS for fast and accurate semantic search
+  * 🧭 Dynamic Model Routing to optimize model selection per task
+  * ⚡ Combined Speed & Depth via efficient model orchestration
+  * 🌍 Use of Real-World Data for higher relevancy and robustness
+  * 🧩 Modular & Expandable Design to support future enhancements
+ 
+* **Key Technologies Used**
+  * 🔧 PyTorch – for custom model development and tuning
+  * 🌐 Streamlit – powering an interactive front-end UI
+  * 📚 Retrieval-Augmented Generation (RAG) – enhances responses with live document retrieval
+  * 🗃️ Vector Data Store – persistent, high-performance vector indexing for embeddings
 
 #### Chatbot Workflow & User Interaction
 
-* Prompts users to enter a product keyword
-* Searches for products that contain the entered term
-* Extracts and displays a unique list of matching products
-* Users select a product from the list
-* The selected product, along with relevant context, is passed to the DistilBERT model to generate an intelligent response
+![Our_Strategy](images/flow_chart.png)
 
-#### AI Architecture & Components
-
-* **DistilBERT:** Handles question answering using a subset of Amazon review data
-* **Mistral (LLM):** Uses prompt engineering on raw Amazon review data to provide broader insights
-* **Transformers:** Used to train neural network models for natural language understanding
-* **Hugging Face Embeddings:** Convert text data into vector format for similarity-based searching
-* **RAG (Retrieval-Augmented Generation):** Enhances LLM accuracy by pulling in relevant information from embedded review data
-* **Vector Data Stores:** Store and retrieve high-dimensional review embeddings to enable semantic search
-* **PyTorch:** Serves as the core deep learning framework powering the model training and inference
+* **User Query**
+  * User submits a natural language question via the chatbot interface.
+* **Text Preprocessing & Embedding**
+  * The query is cleaned, tokenized, and transformed into a dense vector using an embedding model.
+  * Ensures compatibility with the vector-based retrieval system.
+* **Vector Data Store**
+  * Embedded query is compared against a database of pre-embedded Amazon reviews using FAISS (Facebook AI Similarity Search).
+  * Enables fast and efficient similarity search.
+* **Top Relevant Reviews**
+  * The system retrieves the most semantically relevant reviews related to the user query.
+* **Dual Pathway Analysis**
+  * Left Path: Sentence Transformer (FAISS) - Uses a Sentence-Transformer model to interpret and extract the best-matching answers from the retrieved reviews.
+* **Right Path: Mistral 8x7B (RAG/FAISS)**
+  * Applies a Retrieval-Augmented Generation (RAG) approach using Mistral 8x7B.
+  * Integrates review context into generated responses for higher fluency and depth.
+* **Answer Selection & Response Formatting**
+  * Outputs from both models are evaluated and formatted into a coherent, context-aware response.
+* **ZonBot Final Response**
+  * The final answer is delivered to the user through the chatbot interface.
 
 ### Modeling Process
 
@@ -124,7 +138,15 @@ This system combines advanced Natural Language Processing techniques (NLP) to de
 9. **Use Mistral-7B-Instruct-v0.1** as the second model for generating natural, context-aware responses.
 10. **Evaluate model performance** using the *F1 score* (balancing precision and recall) and the *BLEU score* (assessing language generation quality).
 
-![Modeling Process](images/CAPSTONE_Project3_picture.png)
+### Modeling Optimization
+The downward trend in the training loss indicates that the model is improving its ability to fit the training data — it's making fewer mistakes.
+![Training_Loss](images/MiniLM_training_loss.png)
+
+The model is making smaller updates over time, which typically suggests it's converging — it's gradually adjusting weights with less intensity. This is a good sign, especially early in training, as it reflects the model settling into a local or global minimum in the loss landscape.
+![Grad_Norm](images/model_grad_norm.png)
+
+The learning rate is steadily decreasing from about *2.95e-5* to around *2.73e-5* over the training steps. This is a classic learning rate decay schedule — usually done to help the model stabilize and fine-tune during training. That dip in gradient norm near step 2000 coincides with a lower learning rate, which is expected — as gradients shrink, updates are smaller.
+![Learning_Rate](images/model_learning_rate.png)
 
 ### Running Instructions
 
@@ -132,7 +154,11 @@ Getting Started with ZonBot (Amazon's Chatbot):
 
 1. Ensure that **Streamlit** is installed on your machine. You can install it using *pip install streamlit* if needed.
 2. **Download the entire repository** to your local machine for full functionality.
-3. Confirm that ALL of the **AmazonHomeKitchen.ipynb** files and the **Recourse folder** (including all its contents) are present—these are essential for ZonBot to operate correctly.
-4. Launch the app by running the **app.py** file. This is the main user interface and connects with both *LLMmodel.py* and *distillbert.py* in the background.
+3. The Resource files are ENORMOUS and do not fit on GitHub.  **Download the Resources directory**, and all of its contents, from our Google Drive. https://drive.google.com/drive/folders/1lhJ_R6L_CBbmKEIo9yVNMFvvQNazSDSv
+4. Make sure you **download Resource folder into the Project Repository** to insure that everything works properly. 
+5. Launch the app by running the **app.py** file. This is the main user interface and connects with both *LLMmodel.py* and *miniLMsentencetransformer.py* in the background.
+6. A **demonstration video** can be seen here: https://drive.google.com/drive/folders/1lhJ_R6L_CBbmKEIo9yVNMFvvQNazSDSv
+7. Please use your **HuggingfaceEndpoint APIKEY** for access
+8. Please refer to the **requirements.txt** file for the list of required libraries.
 
 
